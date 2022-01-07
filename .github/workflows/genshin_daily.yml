@@ -1,0 +1,27 @@
+name: "Genshin Daily Login"
+
+on:
+  schedule:
+    - cron: "0 16 * * *" 
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+
+      - name: Python Setup
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Genshin Login
+        env:
+          LTUID: ${{ secrets.LTUID }}
+          LTOKEN: ${{ secrets.LTOKEN }}
+        run: |
+          pip install -r requirements.txt
+          python3 ./main.py
